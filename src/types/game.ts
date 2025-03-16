@@ -1,20 +1,21 @@
 export interface PlayerStats {
   health: number;
-  hunger: number;
-  thirst: number;
   stamina: number;
   level: number;
   experience: number;
 }
 
+
+
 export interface InventoryItem {
   id: string;
   name: string;
-  type: 'resource' | 'tool' | 'weapon' | 'food';
   quantity: number;
-  durability?: number;
+  type: "tool" | "weapon" | "resource" | "food" | "consumable";
+  consumable?: {
+    healthRestored: number;
+  };
 }
-
 export interface GameState {
   time: number; // 0-24 hours
   weather: 'clear' | 'rain' | 'storm';

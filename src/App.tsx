@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { GameUI } from './components/GameUI';
 import { World } from './components/World';
 import { PlayerStats, GameState } from './types/game';
@@ -6,9 +6,9 @@ import { PlayerStats, GameState } from './types/game';
 function App() {
   const [playerStats, setPlayerStats] = useState<PlayerStats>({
     health: 100,
-    hunger: 100,
-    thirst: 100,
     stamina: 100,
+    level: 1,
+    experience: 0,
   });
 
   const [gameState, setGameState] = useState<GameState>({
@@ -23,11 +23,11 @@ function App() {
       setGameState(prev => {
         const newTime = (prev.time + 0.25) % 24;
         const newDay = newTime < prev.time ? prev.dayCount + 1 : prev.dayCount;
-        
+
         // Random weather changes
         const weatherChange = Math.random() < 0.01;
         const weathers: GameState['weather'][] = ['clear', 'rain', 'storm'];
-        const newWeather = weatherChange 
+        const newWeather = weatherChange
           ? weathers[Math.floor(Math.random() * weathers.length)]
           : prev.weather;
 
@@ -42,8 +42,6 @@ function App() {
       // Decrease player stats over time
       setPlayerStats(prev => ({
         ...prev,
-        hunger: Math.max(0, prev.hunger - 0.1),
-        thirst: Math.max(0, prev.thirst - 0.15),
         stamina: Math.min(100, prev.stamina + 0.2),
       }));
     }, 1000);
@@ -54,7 +52,7 @@ function App() {
   return (
     <div className="relative w-full h-screen overflow-hidden">
       <World />
-      <GameUI 
+      <GameUI
         playerStats={playerStats}
         gameState={gameState}
       />
